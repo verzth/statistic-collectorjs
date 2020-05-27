@@ -65,16 +65,6 @@
         return source;
     }
 
-    function str_rand(length) {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for( var i=0; i < length; i++ )
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-        return text;
-    }
-
     Collector.prototype.prepareHit = function(){
         this.options.type = Collector.HIT;
 
@@ -83,6 +73,11 @@
 
     Collector.prototype.prepareContent = function(){
         this.options.type = Collector.CONTENT;
+
+        Collector.prototype.setID = function (id) {
+            this.params.id = id;
+            return this;
+        };
 
         Collector.prototype.setAction = function () {
             this.params.action = Array.from(arguments);
@@ -104,6 +99,11 @@
 
     Collector.prototype.prepareEvent = function(){
         this.options.type = Collector.EVENT;
+
+        Collector.prototype.setID = function (id) {
+            this.params.id = id;
+            return this;
+        };
 
         Collector.prototype.setName = function () {
             this.params.name = Array.from(arguments);
@@ -149,11 +149,6 @@
         if(typeof attributes === 'object'){
             this.params.attributes = attributes;
         }
-        return this;
-    };
-
-    Collector.prototype.setType = function (type) {
-        this.params.type = type;
         return this;
     };
 
@@ -273,5 +268,6 @@
 
     Collector.prototype.collect = function (time,callback) {
         collect.call(this,time,callback);
+        this.params = {};
     };
 }(jQuery));
