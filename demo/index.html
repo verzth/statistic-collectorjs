@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../node_modules/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="../dist/js/collector.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(function () {
+            var collector = new Collector({
+                host: "http://localhost:10902/grape/",
+                key: "ff8f1e3251a0d01efe3361777c347ee020040f98"
+            });
+
+            // HIT
+            collector.prepareHit()
+                .setRange("2020-05-27T02:00:00+0700","2020-05-27T02:00:00+0700")
+                .collect(Collector.HOURLY, {
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    failed: function () {
+                        console.log("failed bro")
+                    }
+                });
+
+            // CONTENT
+            collector.prepareContent()
+                .setRange("2020-05-27T00:00:00+0700","2020-05-27T00:00:00+0700")
+                .setAction("impression","click")
+                .collect(Collector.HOURLY, {
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    failed: function () {
+                        console.log("failed bro")
+                    }
+                });
+
+            // EVENT
+            collector.prepareEvent()
+                .setRange("2020-05-01T00:00:00+0700","2020-05-31T00:00:00+0700")
+                .setName("login","register")
+                .withColumns("page")
+                .collect(Collector.WEEKLY, {
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    failed: function () {
+                        console.log("failed bro")
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
